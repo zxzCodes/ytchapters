@@ -12,8 +12,13 @@ export const authOptions: NextAuthOptions = {
             authorization:{
                 params:{scope:'user:email'}
             }
-        })
+        }),
+        
+
     ],
+    session: { strategy: "jwt" },
+    
+
     secret: process.env.SECRET!,
     
 }
