@@ -10,29 +10,54 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckIcon, XIcon } from "lucide-react";
+import prisma from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
-const pricingOptions = [
-  {
-    title: "Free",
-    price: "$0",
-    description: "Perfect for getting started",
-    features: ["5 chapter generations per month", "Basic support"],
-    limitations: ["No access to premium features"],
-    buttonText: "Get started",
-    popular: false,
-  },
-  {
-    title: "Pro plan",
-    price: "$5",
-    description: "For regular uploaders",
-    features: ["40 chapter generations per month", "Priority support"],
-    limitations: [],
-    buttonText: "Upgrade now",
-    popular: true,
-  },
-];
 
-const page = () => {
+
+
+
+const page = async () => {
+
+  const session = await getServerSession(authOptions)
+  if(!session) {
+    return null
+  }
+  const email = session?.user?.email;
+  if (!email) {
+    return null;
+  }
+  const checkSubscriptionPlan = prisma.user.findMany({
+    where: {
+      email: email,
+    },
+    select:{
+      stripe_customer_id: true,
+    }
+  })
+
+  const pricingOptions = [
+    {
+      title: "Free",
+      price: "$0",
+      description: "Perfect for getting started",
+      features: ["5 chapter generations per month", "Basic support"],
+      limitations: ["No access to premium features"],
+      buttonText: "Get started",
+      popular: false,
+    },
+    {
+      title: "Pro plan",
+      price: "$5",
+      description: "For regular uploaders",
+      features: ["40 chapter generations per month", "Priority support"],
+      limitations: [],
+      buttonText: `${await checkSubscriptionPlan ? 'You already have this plan' : 'Buy This plan'}`,
+      popular: true,
+    },
+  ];
+  
   return (
     <MaxWidthWrapper className="py-24 min-h-screen bg-gradient-to-b from-background to-secondary/20">
       <div className="max-w-2xl mx-auto text-center mb-16">
