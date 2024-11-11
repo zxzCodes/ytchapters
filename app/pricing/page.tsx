@@ -127,7 +127,10 @@ const page = async () => {
                     : "bg-secondary hover:bg-secondary/90 text-secondary-foreground"
                 }`}
               >
-                {option.buttonText} (You must be logged in)
+                {option.buttonText} 
+                {
+                  !session && 'You must be logged in to purchase a plan' 
+                }
               </Button>
             </CardFooter>
           </Card>

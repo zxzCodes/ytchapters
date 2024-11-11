@@ -27,13 +27,21 @@ const Page = async () => {
   const subscribed = await hasSubscription();
 
   const user = await prisma.user.findFirst({
+    
     where: {
       email: session?.user?.email,
+      
     },
     select: {
       savedChapters: true,
       stripe_customer_id: true,
+      
     },
+    orderBy: {
+      createdAt: 'desc'
+    }
+    
+    
   });
 
   if (!user) {
