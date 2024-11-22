@@ -6,9 +6,18 @@ import {GitHubLogoIcon } from "@radix-ui/react-icons"
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 
 export default function SignInPage() {
+
+  const { data: session } = useSession();
+  const router = useRouter()
+  if(session) {
+    router.push("/dashboard")
+  }
+
  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-gray-100 to-gray-200">

@@ -1,7 +1,7 @@
 import React from "react";
 import MaxWidthWrapper from "@/components/common/MaxWidthWrapper";
 import Header from "@/components/common/Header";
-import { Mail, Twitter, Linkedin, Trash2 } from "lucide-react";
+import { Mail, X ,Linkedin, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 const ContactItem = ({
@@ -47,12 +47,14 @@ const page = () => {
             href="mailto:azkabdiali2@gmail.com"
           />
 
-          <ContactItem
-            icon={Twitter}
-            title="Follow on X"
-            content="Stay updated with our latest news and announcements"
-            href=""
-          />
+          <Link href="https://x.com/zxzCodesSaas" passHref>
+            <ContactItem
+              icon={X}
+              title="Follow on X"
+              content="Stay updated with our latest news and announcements"
+              href="https://x.com/zxzCodesSaas"
+            />
+          </Link>
 
           <ContactItem
             icon={Linkedin}
