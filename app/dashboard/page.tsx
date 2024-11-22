@@ -34,6 +34,7 @@ const Page = async () => {
     },
     select: {
       savedChapters: true,
+      
       stripe_customer_id: true,
       
     },

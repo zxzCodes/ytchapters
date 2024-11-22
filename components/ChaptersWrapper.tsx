@@ -43,7 +43,13 @@ export default function ChaptersWrapper({user}: {user: UserWithSavedChapters}) {
   const totalPages = user ? Math.ceil(user.savedChapters.length / ITEM_PER_PAGE) : 0;
   const startingIndex = (currentPage - 1) * ITEM_PER_PAGE;
   const endIndex = startingIndex + ITEM_PER_PAGE;
-  const currentChapters = user ? user.savedChapters.slice(startingIndex, endIndex) : [];
+  const sortedChapters = user?.savedChapters.sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+  const currentChapters = sortedChapters
+    ? sortedChapters.slice(startingIndex, endIndex)
+    : [];
+  
 
 
 
