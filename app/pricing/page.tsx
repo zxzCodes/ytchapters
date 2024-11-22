@@ -10,28 +10,13 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CheckIcon, XIcon } from "lucide-react";
-import prisma from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 
 
 
 
 
-const page = async () => {
+const page = () => {
 
-  const session = await getServerSession(authOptions)
-
-  const email = session?.user?.email;
-
-  const checkSubscriptionPlan = prisma.user.findMany({
-    where: {
-      email: email!,
-    },
-    select:{
-      stripe_customer_id: true,
-    }
-  })
 
   const pricingOptions = [
     {
@@ -49,7 +34,7 @@ const page = async () => {
       description: "For regular uploaders",
       features: ["40 chapter generations per month", "Priority support"],
       limitations: [],
-      buttonText: `${await checkSubscriptionPlan ? 'You already have this plan' : 'Buy This plan'}`,
+      buttonText:  'Upgrade now (You must be logged in to purchase a plan)',
       popular: true,
     },
   ];
@@ -124,9 +109,7 @@ const page = async () => {
                 }`}
               >
                 {option.buttonText} 
-                {
-                  !session && 'You must be logged in to purchase a plan' 
-                }
+                
               </Button>
             </CardFooter>
           </Card>
