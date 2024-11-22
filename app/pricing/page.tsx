@@ -21,16 +21,12 @@ import { authOptions } from "@/lib/auth";
 const page = async () => {
 
   const session = await getServerSession(authOptions)
-  if(!session) {
-    return null
-  }
+
   const email = session?.user?.email;
-  if (!email) {
-    return null;
-  }
+
   const checkSubscriptionPlan = prisma.user.findMany({
     where: {
-      email: email,
+      email: email!,
     },
     select:{
       stripe_customer_id: true,
